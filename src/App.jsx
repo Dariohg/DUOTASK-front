@@ -6,13 +6,14 @@ import theme from "./presentation/theme";
 import LandingPage from "./presentation/pages/LandingPage";
 import Login from "./presentation/pages/auth/Login";
 import Register from "./presentation/pages/auth/Register";
-import Dashboard from "./presentation/pages/Dashboard";
+import Dashboard from "./presentation/pages/Dashboard.jsx";
 
 // Layouts
 import MainLayout from "./presentation/layouts/MainLayout";
 
 // Context
 import { AuthProvider } from "./presentation/contexts/AuthContext";
+import Calendar from "./presentation/pages/Calendar.jsx";
 
 function App() {
     return (
@@ -34,6 +35,8 @@ function App() {
                                 <Route path="students" element={<div>Estudiantes (Próximamente)</div>} />
                                 <Route path="tasks" element={<div>Tareas (Próximamente)</div>} />
                                 <Route path="classes" element={<div>Clases (Próximamente)</div>} />
+                                <Route path="calendar" element={<Calendar />} />
+
 
                                 {/* Redirect to dashboard if no route matches */}
                                 <Route path="*" element={<Navigate to="/app/dashboard" replace />} />
