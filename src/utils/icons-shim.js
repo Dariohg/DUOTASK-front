@@ -1,4 +1,3 @@
-// Este archivo es un shim para reemplazar los íconos de Chakra UI con los de react-icons
 import React from 'react';
 import {
     FiSearch,
@@ -10,7 +9,6 @@ import {
     FiChevronRight
 } from 'react-icons/fi';
 
-// Reexportar íconos comunes
 export const SearchIcon = FiSearch;
 export const HamburgerIcon = FiMenu;
 export const BellIcon = FiBell;
@@ -19,7 +17,6 @@ export const ViewOffIcon = FiEyeOff;
 export const ChevronDownIcon = FiChevronDown;
 export const ChevronRightIcon = FiChevronRight;
 
-// Crear un componente Spinner personalizado
 export const Spinner = (props) => {
     return (
         <div
@@ -37,7 +34,6 @@ export const Spinner = (props) => {
     );
 };
 
-// Crear estilos de animación si no existen
 if (!document.getElementById('spin-animation')) {
     const style = document.createElement('style');
     style.id = 'spin-animation';
@@ -56,4 +52,3 @@ export const Icon = ({ icon, ...props }) => {
     return <IconComponent {...props} />;
 };
 
-// Exportar otros íconos necesarios según necesites

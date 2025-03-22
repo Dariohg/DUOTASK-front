@@ -1,4 +1,3 @@
-// src/presentation/theme/index.js
 import { extendTheme } from "@chakra-ui/react";
 
 // Paleta de colores para tema oscuro
@@ -53,7 +52,6 @@ const colors = {
     },
 };
 
-// Configuración del tema
 const theme = extendTheme({
     initialColorMode: "dark",
     useSystemColorMode: false,

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { FiArrowUp } from 'react-icons/fi';
 
-// Importar todas las secciones
 import HeroSection from '../components/landing/HeroSection';
 import StatsSection from '../components/landing/StatsSection';
 import FeaturesSection from '../components/landing/FeaturesSection';

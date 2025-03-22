@@ -1,8 +1,6 @@
-// src/presentation/contexts/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Crear el contexto
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {

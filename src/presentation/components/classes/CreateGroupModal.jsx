@@ -22,22 +22,17 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
-/**
- * Modal component for creating a new group
- */
 const CreateGroupModal = ({ isOpen, onClose, onCreateGroup }) => {
     const toast = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
 
-    // Form state
     const [formData, setFormData] = useState({
         nombre: '',
         grado: 1,
         descripcion: ''
     });
 
-    // Handle form field changes
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData(prev => ({
@@ -46,7 +41,6 @@ const CreateGroupModal = ({ isOpen, onClose, onCreateGroup }) => {
         }));
     };
 
-    // Handle number input change (for grado)
     const handleGradoChange = (value) => {
         setFormData(prev => ({
             ...prev,
@@ -54,7 +48,6 @@ const CreateGroupModal = ({ isOpen, onClose, onCreateGroup }) => {
         }));
     };
 
-    // Validate form fields
     const validateForm = () => {
         const newErrors = {};
 
@@ -70,7 +63,6 @@ const CreateGroupModal = ({ isOpen, onClose, onCreateGroup }) => {
         return Object.keys(newErrors).length === 0;
     };
 
-    // Handle form submission
     const handleSubmit = async () => {
         if (!validateForm()) return;
 
@@ -109,7 +101,6 @@ const CreateGroupModal = ({ isOpen, onClose, onCreateGroup }) => {
         }
     };
 
-    // Reset form when modal closes
     const handleCloseModal = () => {
         setFormData({
             nombre: '',

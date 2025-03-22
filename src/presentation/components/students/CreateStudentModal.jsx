@@ -21,9 +21,6 @@ import {
 import { useState, useEffect } from 'react';
 import groupService from '../../../services/api/groupService';
 
-/**
- * Modal component for creating a new student
- */
 const CreateStudentModal = ({ isOpen, onClose, onCreateStudent }) => {
     const toast = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);

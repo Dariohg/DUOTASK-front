@@ -2,16 +2,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "./presentation/theme";
 
-// Pages
 import LandingPage from "./presentation/pages/LandingPage";
 import Login from "./presentation/pages/auth/Login";
 import Register from "./presentation/pages/auth/Register";
 import Dashboard from "./presentation/pages/Dashboard.jsx";
 
-// Layouts
 import MainLayout from "./presentation/layouts/MainLayout";
 
-// Context
 import { AuthProvider } from "./presentation/contexts/AuthContext";
 import Calendar from "./presentation/pages/Calendar.jsx";
 
