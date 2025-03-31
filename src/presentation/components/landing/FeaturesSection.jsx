@@ -15,7 +15,10 @@ import {
     FiCalendar,
     FiBarChart2,
     FiCheckSquare,
-    FiMessageSquare,
+    FiFileText,
+    FiBell,
+    FiGrid,
+    FiBook,
 } from 'react-icons/fi';
 import { AnimatedBox, float } from './utils/AnimationUtils';
 
@@ -64,40 +67,40 @@ const FeatureCard = ({ feature, index }) => {
 const FeaturesSection = () => {
     const features = [
         {
-            icon: FiClipboard,
-            iconBg: "brand.500",
-            title: "Gestión de tareas",
-            description: "Crea, asigna y califica tareas con facilidad. Establece fechas de entrega y recibe notificaciones automáticas."
-        },
-        {
             icon: FiUsers,
-            iconBg: "accent.500",
-            title: "Administración de estudiantes",
-            description: "Lleva un registro completo de tus estudiantes, contactos, calificaciones y observaciones personalizadas."
+            iconBg: "brand.500",
+            title: "Control de asistencia",
+            description: "Registra fácilmente la asistencia diaria de tus alumnos de primaria. Genera reportes mensuales automáticamente para la dirección escolar."
         },
         {
-            icon: FiCalendar,
+            icon: FiClipboard,
+            iconBg: "accent.500",
+            title: "Planeación de clases",
+            description: "Organiza tus planes de clase semanales según el programa oficial de educación primaria. Accede a una biblioteca de recursos didácticos por grado."
+        },
+        {
+            icon: FiBook,
             iconBg: "#4CAF50",
-            title: "Planificación de clases",
-            description: "Organiza tu horario de clases, exámenes y actividades con un calendario intuitivo y fácil de usar."
+            title: "Calificaciones simplificadas",
+            description: "Sistema intuitivo para registrar calificaciones por evaluación, bimestre y proyecto. Cálculo automático de promedios y generación de boletas."
         },
         {
             icon: FiBarChart2,
             iconBg: "#FF9800",
-            title: "Reportes y estadísticas",
-            description: "Genera informes detallados sobre el rendimiento individual y grupal con gráficos y métricas avanzadas."
+            title: "Reportes para padres",
+            description: "Genera informes personalizados del desempeño de cada alumno para compartir en juntas de padres de familia. Incluye gráficos de progreso."
         },
         {
-            icon: FiCheckSquare,
+            icon: FiGrid,
             iconBg: "#E91E63",
-            title: "Seguimiento de progreso",
-            description: "Visualiza el avance de tus estudiantes con indicadores de progreso y alertas de rendimiento en tiempo real."
+            title: "Organización por materias",
+            description: "Administra las distintas asignaturas de primaria: Español, Matemáticas, Ciencias Naturales, Historia, Geografía, Formación Cívica y más."
         },
         {
-            icon: FiMessageSquare,
+            icon: FiBell,
             iconBg: "#00BCD4",
-            title: "Comunicación directa",
-            description: "Mantén contacto con tus estudiantes a través de la plataforma. Envía anuncios y recibe consultas."
+            title: "Recordatorios personalizados",
+            description: "Configura alertas para fechas importantes como entregas de evaluaciones, juntas escolares, eventos o actividades extracurriculares."
         }
     ];
 
@@ -139,11 +142,14 @@ const FeaturesSection = () => {
                             bgGradient="linear(to-r, brand.400, accent.400)"
                             bgClip="text"
                         >
-                            Todo lo que necesitas para administrar tu clase
+                            Herramientas exclusivas para docentes de primaria
                         </Heading>
                         <Divider width="100px" borderColor="brand.500" opacity={0.3} mx="auto" my={5} />
                         <Text color="text.secondary" fontSize="lg">
-                            Diseñado especialmente para profesores y educadores que buscan optimizar su tiempo y mejorar el seguimiento de sus estudiantes.
+                            DUOTASK está diseñado específicamente para profesores de primaria, optimizando el trabajo administrativo para que puedas dedicar más tiempo a lo que realmente importa: la enseñanza de tus alumnos.
+                        </Text>
+                        <Text color="text.secondary" fontSize="md" mt={4} fontStyle="italic">
+                            Plataforma exclusiva para uso docente - Los estudiantes no necesitan acceder al sistema
                         </Text>
                     </AnimatedBox>
 

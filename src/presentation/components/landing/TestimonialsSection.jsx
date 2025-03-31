@@ -76,52 +76,52 @@ const TestimonialCard = ({ testimonial, index }) => {
 const TestimonialsSection = () => {
     const testimonials = [
         {
-            name: "Laura Mendoza",
-            role: "Profesora de Secundaria",
+            name: "Isabel Ramírez",
+            role: "Maestra de 2° de Primaria",
             avatar: "https://randomuser.me/api/portraits/women/44.jpg",
             avatarBg: "brand.500",
             rating: 5,
-            text: "DUOTASK revolucionó la forma en que organizo mis clases. Ahora puedo dedicar más tiempo a enseñar y menos a tareas administrativas. ¡Mis estudiantes también están más comprometidos!"
+            text: "DUOTASK transformó mi trabajo diario. Ahora llevo el control de asistencia y calificaciones sin complicaciones. Puedo generar reportes para la dirección y para padres de familia en minutos."
         },
         {
-            name: "Carlos Ramírez",
-            role: "Director Académico",
+            name: "Francisco Morales",
+            role: "Director de Escuela Primaria",
             avatar: "https://randomuser.me/api/portraits/men/32.jpg",
             avatarBg: "accent.500",
             rating: 5,
-            text: "Implementamos DUOTASK en toda nuestra institución y los resultados han sido increíbles. La plataforma es intuitiva y el soporte técnico es excelente. Altamente recomendable."
+            text: "Implementamos DUOTASK en los 18 grupos de nuestra primaria y ha sido un cambio radical. Los maestros están más organizados y tenemos toda la información académica centralizada y accesible."
         },
         {
-            name: "María González",
-            role: "Maestra de Primaria",
+            name: "Lucía Hernández",
+            role: "Maestra de 4° de Primaria",
             avatar: "https://randomuser.me/api/portraits/women/68.jpg",
             avatarBg: "#4CAF50",
             rating: 4,
-            text: "La función de seguimiento de progreso me permite identificar rápidamente a los estudiantes que necesitan ayuda adicional. Los padres también aprecian poder ver el avance de sus hijos."
+            text: "El sistema de evaluación por competencias me facilita identificar las áreas donde mis alumnos necesitan apoyo adicional. Las juntas con padres son más efectivas al mostrarles datos concretos del desempeño de sus hijos."
         },
         {
-            name: "Roberto Sánchez",
-            role: "Profesor Universitario",
+            name: "Javier Méndez",
+            role: "Maestro de 6° de Primaria",
             avatar: "https://randomuser.me/api/portraits/men/46.jpg",
             avatarBg: "#FF9800",
             rating: 5,
-            text: "Como profesor universitario, la gestión de múltiples cursos era un reto. DUOTASK ha simplificado enormemente mi trabajo, especialmente con los reportes automáticos de calificaciones."
+            text: "La planeación semanal solía tomarme horas. Con DUOTASK puedo organizarla en 20 minutos y acceder a recursos didácticos por materia. La función de calendario me ayuda con las evaluaciones bimestrales y eventos escolares."
         },
         {
-            name: "Gabriela Ortiz",
-            role: "Coordinadora de Tecnología Educativa",
+            name: "Adriana Vega",
+            role: "Coordinadora Académica de Primaria",
             avatar: "https://randomuser.me/api/portraits/women/95.jpg",
             avatarBg: "#E91E63",
             rating: 5,
-            text: "Lo que más me gusta es la facilidad de integración con otras herramientas educativas. La interfaz es moderna y los estudiantes se adaptan rápidamente a ella."
+            text: "Gracias a DUOTASK, nuestros 12 maestros de primaria pueden gestionar su trabajo de manera autónoma y eficiente. La plataforma ha reducido significativamente el tiempo que dedicaban al papeleo, permitiéndoles concentrarse más en la enseñanza."
         },
         {
-            name: "Alejandro Torres",
-            role: "Profesor de Preparatoria",
+            name: "Miguel Ángel Torres",
+            role: "Maestro de Educación Física en Primaria",
             avatar: "https://randomuser.me/api/portraits/men/29.jpg",
             avatarBg: "#00BCD4",
             rating: 4,
-            text: "DUOTASK me ha permitido implementar metodologías innovadoras en mi enseñanza. La comunicación directa con los estudiantes y la organización de materiales digitales es excepcional."
+            text: "Aunque imparto educación física a todos los grados, DUOTASK me permite mantener un registro detallado del desarrollo de habilidades motrices de cada alumno y compartir esta información con sus maestros de grupo."
         }
     ];
 
@@ -135,10 +135,10 @@ const TestimonialsSection = () => {
                         bgGradient="linear(to-r, brand.400, accent.400)"
                         bgClip="text"
                     >
-                        Lo que dicen nuestros usuarios
+                        Testimonios de maestros de primaria
                     </Heading>
                     <Text color="text.secondary" fontSize="lg" maxW="800px" mx="auto">
-                        Historias de éxito de educadores que transformaron su enseñanza con DUOTASK
+                        Descubre cómo docentes de primaria optimizan su trabajo administrativo y mejoran su práctica educativa con DUOTASK
                     </Text>
                 </AnimatedBox>
 
