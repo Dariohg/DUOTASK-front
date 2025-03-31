@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, IconButton } from '@chakra-ui/react';
 import { FiArrowUp } from 'react-icons/fi';
 
+// Importar todas las secciones existentes
 import HeroSection from '../components/landing/HeroSection';
 import StatsSection from '../components/landing/StatsSection';
 import FeaturesSection from '../components/landing/FeaturesSection';
@@ -9,6 +10,12 @@ import HowItWorksSection from '../components/landing/HowItWorksSection';
 import ShowcaseSection from '../components/landing/ShowcaseSection';
 import TestimonialsSection from '../components/landing/TestimonialsSection';
 import CtaSection from '../components/landing/CtaSection';
+
+// Importar las nuevas secciones
+import AboutUsSection from '../components/landing/AboutUsSection';
+import VideoSection from '../components/landing/VideoSection';
+import PricingSection from '../components/landing/PricingSection';
+import ContactSection from '../components/landing/ContactSection';
 
 const LandingPage = () => {
     const [showScrollTop, setShowScrollTop] = useState(false);
@@ -45,14 +52,26 @@ const LandingPage = () => {
             {/* Features Section */}
             <FeaturesSection />
 
+            {/* About Us Section - NUEVA */}
+            <AboutUsSection />
+
             {/* How It Works Section */}
             <HowItWorksSection />
+
+            {/* Videos Section - NUEVA */}
+            <VideoSection />
 
             {/* Showcase Section */}
             <ShowcaseSection />
 
+            {/* Pricing Section - NUEVA */}
+            <PricingSection />
+
             {/* Testimonials Section */}
             <TestimonialsSection />
+
+            {/* Contact Section - NUEVA */}
+            <ContactSection />
 
             {/* CTA Section */}
             <CtaSection />
