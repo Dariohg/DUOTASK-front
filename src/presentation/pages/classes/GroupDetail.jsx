@@ -1,4 +1,3 @@
-// Crear src/presentation/pages/classes/GroupDetail.jsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -40,7 +39,7 @@ import {
     FiEdit2,
     FiTrash2,
     FiMoreVertical,
-    FiUsers,
+    FiUsers, FiCheckSquare,
 } from 'react-icons/fi';
 import ClassService from '../../../services/ClassService';
 import studentService from '../../../services/api/studentService';
@@ -101,6 +100,12 @@ const GroupDetail = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const navigateToStudentDetail = (studentId) => {
+        navigate(`/app/students/${studentId}`, {
+            state: { groupId: groupId }
+        });
     };
 
     // Manejar la creación de un nuevo estudiante
@@ -248,6 +253,14 @@ const GroupDetail = () => {
                         <Badge colorScheme="blue" fontSize="sm">{students.length} estudiantes</Badge>
                     </HStack>
                 </Box>
+                <Button
+                    ml="auto"
+                    colorScheme="green"
+                    leftIcon={<FiCheckSquare />}
+                    onClick={() => navigate(`/app/classes/${groupId}/attendance`)}
+                >
+                    Tomar Asistencia
+                </Button>
             </HStack>
 
             {/* Descripción del grupo si existe */}
@@ -304,10 +317,15 @@ const GroupDetail = () => {
                                 </Thead>
                                 <Tbody>
                                     {students.map(student => (
-                                        <Tr key={student.id}>
+                                        <Tr
+                                            key={student.id}
+                                            cursor="pointer"
+                                            _hover={{ bg: "background.tertiary" }}
+                                            onClick={() => navigateToStudentDetail(student.id)}
+                                        >
                                             <Td>{student.nombre}</Td>
                                             <Td>{student.apellido}</Td>
-                                            <Td>
+                                            <Td onClick={(e) => e.stopPropagation()}>
                                                 <Menu>
                                                     <MenuButton
                                                         as={IconButton}

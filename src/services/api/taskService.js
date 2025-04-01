@@ -39,6 +39,7 @@ const saveGrades = (grades) => {
     localStorage.setItem(GRADES_STORAGE_KEY, JSON.stringify(grades));
 };
 
+
 /**
  * Servicio para gestionar tareas y calificaciones
  */
@@ -279,6 +280,43 @@ const taskService = {
         return updatedGrade;
     },
 
+    getTasksByStudent: async (studentId) => {
+        try {
+            // Simular una demora en la respuesta
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Obtener todas las tareas
+            const tasks = getStoredTasks();
+
+            // Obtener todas las calificaciones
+            const grades = getStoredGrades();
+
+            // Filtrar las calificaciones del estudiante
+            const studentGrades = grades.filter(grade => grade.idEstudiante === studentId);
+
+            // Mapear los IDs de tareas que tienen calificaciones para este estudiante
+            const taskIds = studentGrades.map(grade => grade.idTarea);
+
+            // Obtener las tareas correspondientes a esas calificaciones
+            const studentTasks = tasks.filter(task => taskIds.includes(task.id));
+
+            // Combinar las tareas con sus calificaciones
+            return studentTasks.map(task => {
+                const grade = studentGrades.find(g => g.idTarea === task.id);
+                return {
+                    ...task,
+                    calificacion: grade?.calificacion,
+                    comentario: grade?.comentario,
+                    fechaEntrega: grade?.fechaEntrega,
+                    entregada: grade?.entregada
+                };
+            });
+        } catch (error) {
+            console.error('Error al obtener tareas del estudiante:', error);
+            throw error;
+        }
+    },
+
     /**
      * Obtener estadísticas de tareas y calificaciones
      * @param {string} groupId - ID del grupo (opcional)
@@ -314,6 +352,7 @@ const taskService = {
             gradesAssigned,
             gradesPending,
             gradesAssignedPercent: (gradesAssigned + gradesPending) ? Math.round(gradesAssigned / (gradesAssigned + gradesPending) * 100) : 0
+
         };
     }
 };
