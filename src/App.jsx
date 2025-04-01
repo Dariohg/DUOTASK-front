@@ -11,6 +11,10 @@ import MainLayout from "./presentation/layouts/MainLayout";
 
 import { AuthProvider } from "./presentation/contexts/AuthContext";
 import Calendar from "./presentation/pages/Calendar.jsx";
+import ClassesPage from "./presentation/pages/classes/index.jsx";
+import GroupDetail from "./presentation/pages/classes/GroupDetail.jsx";
+import TaskGrades from "./presentation/pages/tasks/TaskGrades.jsx";
+import TasksPage from "./presentation/pages/tasks/index.jsx";
 
 function App() {
     return (
@@ -31,7 +35,10 @@ function App() {
                                 <Route path="dashboard" element={<Dashboard />} />
                                 <Route path="students" element={<div>Estudiantes (Próximamente)</div>} />
                                 <Route path="tasks" element={<div>Tareas (Próximamente)</div>} />
-                                <Route path="classes" element={<div>Clases (Próximamente)</div>} />
+                                <Route path="classes" element={<ClassesPage />} />
+                                <Route path="classes/:groupId" element={<GroupDetail />} />
+                                <Route path="tasks" element={<TasksPage />} />
+                                <Route path="tasks/:taskId/grades" element={<TaskGrades />} />
                                 <Route path="calendar" element={<Calendar />} />
 
 

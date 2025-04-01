@@ -179,7 +179,7 @@ const PricingSection = () => {
                         <PriceCard
                             key={index}
                             plan={plan}
-                            isPopular={index === 1} // El plan del medio es el popular
+                            isPopular={index === 1}
                         />
                     ))}
                 </SimpleGrid>

@@ -90,21 +90,6 @@ const studentService = {
         return getStoredStudents();
     },
 
-    /**
-     * Obtener todos los estudiantes de un grupo específico
-     * @param {string} groupId - ID del grupo
-     * @returns {Promise<Array>} - Lista de estudiantes del grupo
-     */
-    getStudentsByGroup: async (groupId) => {
-        // Simular una demora en la respuesta
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        // Obtener todos los estudiantes
-        const students = getStoredStudents();
-
-        // Filtrar por grupo
-        return students.filter(student => student.idGrupo === groupId);
-    },
 
     /**
      * Obtener un estudiante por ID
@@ -276,7 +261,25 @@ const studentService = {
         });
 
         return stats;
-    }
+    },
+
+    /**
+     * Obtener todos los estudiantes de un grupo específico
+     * @param {string} groupId - ID del grupo
+     * @returns {Promise<Array>} - Lista de estudiantes del grupo
+     */
+    getStudentsByGroup: async (groupId) => {
+        // Simular una demora en la respuesta
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        // Obtener todos los estudiantes
+        const students = getStoredStudents();
+
+        // Filtrar por grupo
+        return students.filter(student => student.idGrupo === groupId);
+    },
+
+
 };
 
 export default studentService;

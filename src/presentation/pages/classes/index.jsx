@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Heading,
@@ -40,6 +40,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import CreateGroupModal from '../../components/classes/CreateGroupModal';
 import ClassService from '../../../services/ClassService';
+import {useNavigate} from "react-router-dom";
 
 const ClassesPage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,6 +51,12 @@ const ClassesPage = () => {
     const [gradeFilter, setGradeFilter] = useState('');
     const [error, setError] = useState(null);
     const toast = useToast();
+    const navigate = useNavigate();
+
+
+    const navigateToGroupDetail = (groupId) => {
+        navigate(`/app/classes/${groupId}`);
+    };
 
     // Cargar grupos al montar el componente
     useEffect(() => {
@@ -296,6 +303,8 @@ const ClassesPage = () => {
                                 boxShadow: "md",
                                 borderColor: "whiteAlpha.300"
                             }}
+                            cursor="pointer"
+                            onClick={() => navigateToGroupDetail(group.id)}
                         >
                             <CardBody>
                                 <Flex justify="space-between" align="flex-start" mb={3}>

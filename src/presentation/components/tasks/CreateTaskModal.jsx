@@ -10,6 +10,7 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Textarea,
     FormErrorMessage,
     useToast,
     Stack,
@@ -17,25 +18,27 @@ import {
     Spinner,
     Text,
     Box,
+    VStack,
+    HStack,
+    Icon,
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
-import groupService from '../../../services/api/groupService';
+import { FiCalendar, FiInfo } from 'react-icons/fi';
 
-const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroupId = null }) => {
+const CreateTaskModal = ({ isOpen, onClose, onCreateTask, groups, preSelectedGroupId = null }) => {
     const toast = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
-    const [groups, setGroups] = useState([]);
-    const [isLoadingGroups, setIsLoadingGroups] = useState(true);
 
     // Form state
     const [formData, setFormData] = useState({
-        nombre: '',
-        apellido: '',
-        idGrupo: preSelectedGroupId || ''
+        titulo: '',
+        descripcion: '',
+        idGrupo: preSelectedGroupId || '',
+        fechaEntrega: ''
     });
 
-    // Cargar grupos al abrir el modal
+    // Actualizar cuando cambia el preSelectedGroupId
     useEffect(() => {
         if (preSelectedGroupId) {
             setFormData(prev => ({
@@ -44,34 +47,6 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
             }));
         }
     }, [preSelectedGroupId]);
-
-    // Función para obtener los grupos
-    const fetchGroups = async () => {
-        setIsLoadingGroups(true);
-        try {
-            const fetchedGroups = await groupService.getGroups();
-            setGroups(fetchedGroups);
-
-            // Si solo hay un grupo, seleccionarlo automáticamente
-            if (fetchedGroups.length === 1) {
-                setFormData(prev => ({
-                    ...prev,
-                    idGrupo: fetchedGroups[0].id
-                }));
-            }
-        } catch (error) {
-            console.error('Error al cargar grupos:', error);
-            toast({
-                title: 'Error',
-                description: 'No se pudieron cargar los grupos',
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-        } finally {
-            setIsLoadingGroups(false);
-        }
-    };
 
     // Handle form field changes
     const handleChange = (e) => {
@@ -86,12 +61,8 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
     const validateForm = () => {
         const newErrors = {};
 
-        if (!formData.nombre.trim()) {
-            newErrors.nombre = 'El nombre del estudiante es requerido';
-        }
-
-        if (!formData.apellido.trim()) {
-            newErrors.apellido = 'El apellido del estudiante es requerido';
+        if (!formData.titulo.trim()) {
+            newErrors.titulo = 'El título de la tarea es requerido';
         }
 
         if (!formData.idGrupo) {
@@ -109,19 +80,20 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
         setIsSubmitting(true);
 
         try {
-            // Call the passed function to create the student
-            await onCreateStudent(formData);
+            // Call the passed function to create the task
+            await onCreateTask(formData);
 
             // Reset form and close modal on success
             setFormData({
-                nombre: '',
-                apellido: '',
-                idGrupo: ''
+                titulo: '',
+                descripcion: '',
+                idGrupo: preSelectedGroupId || '',
+                fechaEntrega: ''
             });
 
             toast({
-                title: 'Estudiante creado',
-                description: 'El estudiante se ha creado exitosamente',
+                title: 'Tarea creada',
+                description: 'La tarea se ha creado exitosamente',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -131,7 +103,7 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
         } catch (error) {
             toast({
                 title: 'Error',
-                description: error.message || 'Error al crear el estudiante',
+                description: error.message || 'Error al crear la tarea',
                 status: 'error',
                 duration: 5000,
                 isClosable: true,
@@ -144,9 +116,10 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
     // Reset form when modal closes
     const handleCloseModal = () => {
         setFormData({
-            nombre: '',
-            apellido: '',
-            idGrupo: ''
+            titulo: '',
+            descripcion: '',
+            idGrupo: preSelectedGroupId || '',
+            fechaEntrega: ''
         });
         setErrors({});
         onClose();
@@ -157,43 +130,38 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
             <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px)" />
             <ModalContent bg="background.card" borderColor="rgba(255, 255, 255, 0.05)">
                 <ModalHeader borderBottomWidth="1px" borderColor="rgba(255, 255, 255, 0.05)">
-                    Agregar Nuevo Estudiante
+                    Crear Nueva Tarea
                 </ModalHeader>
                 <ModalCloseButton />
 
                 <ModalBody py={4}>
-                    {isLoadingGroups ? (
+                    {!groups || groups.length === 0 ? (
                         <Box textAlign="center" py={8}>
-                            <Spinner size="lg" mb={4} color="brand.500" />
-                            <Text>Cargando grupos...</Text>
-                        </Box>
-                    ) : groups.length === 0 ? (
-                        <Box textAlign="center" py={8}>
-                            <Text mb={4}>No hay grupos disponibles para agregar estudiantes.</Text>
+                            <Text mb={4}>No hay grupos disponibles para crear tareas.</Text>
                             <Text>Por favor, cree un grupo primero.</Text>
                         </Box>
                     ) : (
                         <Stack spacing={4}>
-                            <FormControl isInvalid={!!errors.nombre} isRequired>
-                                <FormLabel htmlFor="nombre">Nombre</FormLabel>
+                            <FormControl isInvalid={!!errors.titulo} isRequired>
+                                <FormLabel htmlFor="titulo">Título de la tarea</FormLabel>
                                 <Input
-                                    id="nombre"
-                                    placeholder="Ej. Juan"
-                                    value={formData.nombre}
+                                    id="titulo"
+                                    placeholder="Ej. Ejercicios de matemáticas"
+                                    value={formData.titulo}
                                     onChange={handleChange}
                                 />
-                                <FormErrorMessage>{errors.nombre}</FormErrorMessage>
+                                <FormErrorMessage>{errors.titulo}</FormErrorMessage>
                             </FormControl>
 
-                            <FormControl isInvalid={!!errors.apellido} isRequired>
-                                <FormLabel htmlFor="apellido">Apellido</FormLabel>
-                                <Input
-                                    id="apellido"
-                                    placeholder="Ej. Pérez"
-                                    value={formData.apellido}
+                            <FormControl>
+                                <FormLabel htmlFor="descripcion">Descripción</FormLabel>
+                                <Textarea
+                                    id="descripcion"
+                                    placeholder="Descripción detallada de la tarea..."
+                                    value={formData.descripcion}
                                     onChange={handleChange}
+                                    rows={3}
                                 />
-                                <FormErrorMessage>{errors.apellido}</FormErrorMessage>
                             </FormControl>
 
                             {!preSelectedGroupId ? (
@@ -214,17 +182,29 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
                                     <FormErrorMessage>{errors.idGrupo}</FormErrorMessage>
                                 </FormControl>
                             ) : (
-                                // Si hay un grupo preseleccionado, mostrarlo sin permitir cambiarlo
                                 <FormControl>
                                     <FormLabel htmlFor="idGrupo">Grupo</FormLabel>
                                     <Input
-                                        id="idGrupo"
                                         value={groups.find(g => g.id === preSelectedGroupId)?.nombre || 'Grupo seleccionado'}
                                         isReadOnly
                                         bg="background.tertiary"
                                     />
                                 </FormControl>
                             )}
+
+                            <FormControl>
+                                <FormLabel htmlFor="fechaEntrega">Fecha de entrega</FormLabel>
+                                <Input
+                                    id="fechaEntrega"
+                                    type="date"
+                                    value={formData.fechaEntrega}
+                                    onChange={handleChange}
+                                />
+                                <Text fontSize="xs" color="text.secondary" mt={1}>
+                                    <Icon as={FiInfo} mr={1} />
+                                    Opcional. Si no se especifica, la tarea no tendrá fecha límite.
+                                </Text>
+                            </FormControl>
                         </Stack>
                     )}
                 </ModalBody>
@@ -238,9 +218,9 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
                         onClick={handleSubmit}
                         isLoading={isSubmitting}
                         loadingText="Creando..."
-                        isDisabled={isLoadingGroups || groups.length === 0}
+                        isDisabled={!groups || groups.length === 0}
                     >
-                        Agregar Estudiante
+                        Crear Tarea
                     </Button>
                 </ModalFooter>
             </ModalContent>
@@ -248,4 +228,4 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
     );
 };
 
-export default CreateStudentModal;
+export default CreateTaskModal;
