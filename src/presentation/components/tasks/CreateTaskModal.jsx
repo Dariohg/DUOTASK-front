@@ -22,6 +22,7 @@ import {
     HStack,
     Icon,
 } from '@chakra-ui/react';
+
 import { useState, useEffect } from 'react';
 import { FiCalendar, FiInfo } from 'react-icons/fi';
 

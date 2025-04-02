@@ -53,7 +53,7 @@ const Header = ({ onMenuOpen }) => {
             </HStack>
 
             {/* Center section - Search */}
-            <Box display={{ base: 'none', md: 'block' }} mx={4} flex="1" maxW="500px">
+            {/* <Box display={{ base: 'none', md: 'block' }} mx={4} flex="1" maxW="500px">
                 <InputGroup>
                     <InputLeftElement pointerEvents="none">
                         <FiSearch color="gray.500" />
@@ -67,11 +67,11 @@ const Header = ({ onMenuOpen }) => {
                         borderRadius="full"
                     />
                 </InputGroup>
-            </Box>
+            </Box> */}
 
             {/* Right section - Notifications and User menu */}
             <HStack spacing={4}>
-                <Tooltip label="Notificaciones">
+                {/* <Tooltip label="Notificaciones">
                     <Box position="relative">
                         <IconButton
                             aria-label="Notifications"
@@ -79,7 +79,7 @@ const Header = ({ onMenuOpen }) => {
                             variant="ghost"
                         />
                         {/* Notification badge */}
-                        <Box
+                        {/* <Box
                             position="absolute"
                             top={1}
                             right={1}
@@ -96,7 +96,7 @@ const Header = ({ onMenuOpen }) => {
                             3
                         </Box>
                     </Box>
-                </Tooltip>
+                </Tooltip> */}
 
                 <Menu>
                     <MenuButton

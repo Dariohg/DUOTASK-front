@@ -18,6 +18,10 @@ import GroupAttendance from "./presentation/pages/classes/GroupAttendance.jsx"; 
 import TaskGrades from "./presentation/pages/tasks/TaskGrades.jsx";
 import TasksPage from "./presentation/pages/tasks/index.jsx";
 
+import AttendanceIndex from "./presentation/pages/attendanceHistory/index.jsx";
+import StudentList from "./presentation/pages/attendanceHistory/StudentList.jsx";
+import StudentDetails from "./presentation/pages/attendanceHistory/StudentDetail.jsx";
+
 function App() {
     return (
         <>
@@ -43,6 +47,10 @@ function App() {
                                 <Route path="tasks" element={<TasksPage />} />
                                 <Route path="tasks/:taskId/grades" element={<TaskGrades />} />
                                 <Route path="calendar" element={<Calendar />} />
+
+                                <Route path="attendance" element={<AttendanceIndex />} />
+                                <Route path="attendance/:groupId" element={<StudentList />} />
+                                <Route path="attendance/:groupId/:studentId" element={<StudentDetails />} />
 
                                 {/* Redirect to dashboard if no route matches */}
                                 <Route path="*" element={<Navigate to="/app/dashboard" replace />} />

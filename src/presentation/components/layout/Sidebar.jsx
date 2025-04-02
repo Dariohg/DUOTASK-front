@@ -8,23 +8,25 @@ import {
     FiCalendar,
     FiMessageSquare,
     FiSettings,
-    FiHelpCircle
+    FiHelpCircle,
+    FiCheckSquare
 } from 'react-icons/fi';
 
 // Define los elementos de navegación
 const navItems = [
     { name: 'Dashboard', icon: FiHome, path: '/app/dashboard' },
-    { name: 'Estudiantes', icon: FiUsers, path: '/app/students' },
+    // { name: 'Estudiantes', icon: FiUsers, path: '/app/students' },
     { name: 'Tareas', icon: FiClipboard, path: '/app/tasks' },
     { name: 'Clases', icon: FiBook, path: '/app/classes' },
     { name: 'Calendario', icon: FiCalendar, path: '/app/calendar' },
     { name: 'Mensajes', icon: FiMessageSquare, path: '/app/messages' },
+    { name: 'Asistencia', icon: FiCheckSquare, path: '/app/attendance' },
 ];
 
 // Enlaces secundarios
 const secondaryNavItems = [
-    { name: 'Configuración', icon: FiSettings, path: '/app/settings' },
-    { name: 'Ayuda', icon: FiHelpCircle, path: '/app/help' },
+    // { name: 'Configuración', icon: FiSettings, path: '/app/settings' },
+    // { name: 'Ayuda', icon: FiHelpCircle, path: '/app/help' },
 ];
 
 // Componente de un elemento de navegación

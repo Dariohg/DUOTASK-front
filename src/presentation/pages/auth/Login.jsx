@@ -193,13 +193,6 @@ const Login = () => {
                                         Iniciar Sesión
                                     </Button>
 
-                                    <Text fontSize="sm" color="text.secondary" textAlign="center" mt={4}>
-                                        Para fines de demostración, usa:
-                                        <br />
-                                        <Text as="span" fontWeight="medium" color="text.primary">
-                                            admin123 / 123456
-                                        </Text>
-                                    </Text>
                                 </Stack>
                             </form>
 

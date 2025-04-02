@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { registerUser, loginUser } from '../../services/api/registrationService';
 
 const AuthContext = createContext(null);
 
@@ -10,89 +11,48 @@ export const AuthProvider = ({ children }) => {
 
     // Verificar si hay una sesión activa al cargar la página
     useEffect(() => {
-        const checkAuth = () => {
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-                try {
-                    setUser(JSON.parse(storedUser));
-                } catch (error) {
-                    console.error("Error parsing stored user:", error);
-                    localStorage.removeItem('user');
-                }
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (error) {
+                console.error("Error parsing stored user:", error);
+                localStorage.removeItem('currentUser');
             }
-            setLoading(false);
-        };
-
-        checkAuth();
+        }
+        setLoading(false);
     }, []);
 
     // Función para iniciar sesión
     const login = async (username, password) => {
         try {
-            // Simulación de login para desarrollo
-            // En producción, esto haría una petición a un API
-            if (username === 'admin123' && password === '123456') {
-                const userData = {
-                    id: '1',
-                    name: 'Administrador',
-                    username: username,
-                    role: 'admin',
-                    avatar: null
-                };
-
-                // Guardar en localStorage para persistencia
-                localStorage.setItem('user', JSON.stringify(userData));
-                setUser(userData);
-
+            const result = loginUser(username, password);
+            if (result.success) {
+                localStorage.setItem('currentUser', JSON.stringify(result.user));
+                setUser(result.user);
                 return { success: true };
             }
-
-            return {
-                success: false,
-                message: 'Credenciales incorrectas. Intenta con admin123 / 123456'
-            };
+            return { success: false, message: 'Credenciales incorrectas' };
         } catch (error) {
             console.error('Login error:', error);
-            return {
-                success: false,
-                message: error.message || 'Error al iniciar sesión'
-            };
+            return { success: false, message: 'Error al iniciar sesión' };
         }
     };
 
     // Función para registrar un nuevo usuario
     const register = async (userData) => {
         try {
-            // Simulación de registro para desarrollo
-            // En producción, esto haría una petición a un API
-
-            // Verificar si ya existe un usuario con ese username (para fines de demostración)
-            if (userData.username === 'admin123') {
-                return {
-                    success: false,
-                    message: 'Este nombre de usuario ya está registrado'
-                };
-            }
-
-            // Simular un registro exitoso
-            console.log('Usuario registrado:', userData);
-
-            return {
-                success: true,
-                message: 'Usuario registrado correctamente'
-            };
+            const result = registerUser(userData);
+            return result;
         } catch (error) {
             console.error('Register error:', error);
-            return {
-                success: false,
-                message: error.message || 'Error al registrar usuario'
-            };
+            return { success: false, message: 'Error al registrar usuario' };
         }
     };
 
     // Función para cerrar sesión
     const logout = () => {
-        localStorage.removeItem('user');
+        localStorage.removeItem('currentUser');
         setUser(null);
         navigate('/login');
     };

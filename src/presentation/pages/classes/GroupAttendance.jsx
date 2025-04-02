@@ -22,19 +22,12 @@ import {
     useToast,
     Select,
     FormControl,
-    FormLabel,
     Input,
-    InputGroup,
-    InputLeftElement,
 } from '@chakra-ui/react';
-import {
-    FiArrowLeft,
-    FiCheck,
-    FiCalendar,
-    FiSave,
-} from 'react-icons/fi';
+import { FiArrowLeft, FiSave, FiCalendar } from 'react-icons/fi';
 import ClassService from '../../../services/ClassService';
 import studentService from '../../../services/api/studentService';
+import attendanceService from '../../../services/api/attendanceService'; // Asegúrate de importar el servicio
 
 const GroupAttendance = () => {
     const { groupId } = useParams();
@@ -108,7 +101,7 @@ const GroupAttendance = () => {
         setIsSaving(true);
 
         try {
-            // Preparar datos para enviar al backend
+            // Preparar los datos para enviar al backend
             const attendancePayload = {
                 idGrupo: groupId,
                 fecha: date,
@@ -118,12 +111,10 @@ const GroupAttendance = () => {
                 }))
             };
 
-            // Aquí iría la llamada a la API para guardar los datos
-            // Por ahora simulamos una respuesta exitosa
-            console.log('Enviando datos de asistencia:', attendancePayload);
-
-            // Simular una demora en la respuesta
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Llamar al servicio de creación de asistencia
+            await Promise.all(attendancePayload.asistencias.map(attendance =>
+                attendanceService.createOrUpdateAttendance(groupId, attendance.idAlumno, attendance.asistencia, date)
+            ));
 
             toast({
                 title: 'Asistencia guardada',

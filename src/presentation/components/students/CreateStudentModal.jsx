@@ -37,6 +37,8 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
 
     // Cargar grupos al abrir el modal
     useEffect(() => {
+        console.log("Pre-selected group ID:", preSelectedGroupId); // <-- Verifica si esta llamada es exitosa
+
         if (preSelectedGroupId) {
             setFormData(prev => ({
                 ...prev,
@@ -44,6 +46,11 @@ const CreateStudentModal = ({ isOpen, onClose, onCreateStudent, preSelectedGroup
             }));
         }
     }, [preSelectedGroupId]);
+
+    // Cargar grupos al montar el componente
+    useEffect(() => {
+        fetchGroups();
+    }, []);
 
     // Función para obtener los grupos
     const fetchGroups = async () => {

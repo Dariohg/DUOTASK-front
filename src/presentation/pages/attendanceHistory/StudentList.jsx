@@ -21,32 +21,14 @@ import {
     Spinner,
     useToast,
     useDisclosure,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Divider,
-    AlertDialog,
-    AlertDialogBody,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogContent,
-    AlertDialogOverlay,
 } from '@chakra-ui/react';
 import { Icon } from "@chakra-ui/react";
-import {
-    FiArrowLeft,
-    FiUserPlus,
-    FiEdit2,
-    FiTrash2,
-    FiMoreVertical,
-    FiUsers, FiCheckSquare,
-} from 'react-icons/fi';
+import { FiArrowLeft, FiUsers } from 'react-icons/fi';
 import ClassService from '../../../services/ClassService';
 import studentService from '../../../services/api/studentService';
-import CreateStudentModal from '../../components/students/CreateStudentModal';
+import attendanceService from '../../../services/api/attendanceService';  // Importa el servicio de asistencia
 
-const GroupDetail = () => {
+const StudentList = () => {
     const { groupId } = useParams();
     const navigate = useNavigate();
     const toast = useToast();
@@ -56,20 +38,6 @@ const GroupDetail = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [studentToDelete, setStudentToDelete] = useState(null);
-
-    // Modal para agregar estudiantes
-    const {
-        isOpen: isAddStudentOpen,
-        onOpen: openAddStudent,
-        onClose: closeAddStudent
-    } = useDisclosure();
-
-    // Dialog para confirmar eliminación
-    const {
-        isOpen: isDeleteAlertOpen,
-        onOpen: openDeleteAlert,
-        onClose: closeDeleteAlert
-    } = useDisclosure();
 
     // Obtener datos del grupo y sus estudiantes
     useEffect(() => {
@@ -87,7 +55,20 @@ const GroupDetail = () => {
 
             // Obtener estudiantes del grupo
             const groupStudents = await studentService.getStudentsByGroup(groupId);
-            setStudents(groupStudents);
+
+            // Obtener las estadísticas de asistencia de cada estudiante
+            const updatedStudents = await Promise.all(groupStudents.map(async (student) => {
+                const { asistencias, faltas, permisos } = await attendanceService.getAttendanceCountsByStudent(groupId, student.id);
+                
+                return {
+                    ...student,
+                    asistencias,
+                    faltas,
+                    permisos
+                };
+            }));
+
+            setStudents(updatedStudents);
         } catch (err) {
             console.error('Error al cargar datos del grupo:', err);
             setError('No se pudo cargar la información del grupo');
@@ -101,12 +82,6 @@ const GroupDetail = () => {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const navigateToStudentDetail = (studentId) => {
-        navigate(`/app/students/${studentId}`, {
-            state: { groupId: groupId }
-        });
     };
 
     // Manejar la creación de un nuevo estudiante
@@ -179,7 +154,6 @@ const GroupDetail = () => {
 
     // Manejar la edición de un estudiante (se implementará en otro componente)
     const handleEditStudent = (student) => {
-        // Aquí se implementaría la navegación a la edición de estudiante
         toast({
             title: 'Función en desarrollo',
             description: 'La edición de estudiantes estará disponible próximamente',
@@ -254,14 +228,6 @@ const GroupDetail = () => {
                         <Badge colorScheme="blue" fontSize="sm">{students.length} estudiantes</Badge>
                     </HStack>
                 </Box>
-                <Button
-                    ml="auto"
-                    colorScheme="green"
-                    leftIcon={<FiCheckSquare />}
-                    onClick={() => navigate(`/app/classes/${groupId}/attendance`)}
-                >
-                    Tomar Asistencia
-                </Button>
             </HStack>
 
             {/* Descripción del grupo si existe */}
@@ -280,13 +246,6 @@ const GroupDetail = () => {
                         <Heading size="md">
                             Estudiantes
                         </Heading>
-                        <Button
-                            leftIcon={<FiUserPlus />}
-                            colorScheme="brand"
-                            onClick={openAddStudent}
-                        >
-                            Agregar Estudiante
-                        </Button>
                     </Flex>
 
                     {students.length === 0 ? (
@@ -295,16 +254,6 @@ const GroupDetail = () => {
                             <Text fontSize="lg" fontWeight="medium">
                                 No hay estudiantes en este grupo
                             </Text>
-                            <Text color="text.secondary" textAlign="center" maxW="500px">
-                                Comienza agregando estudiantes a este grupo para gestionarlos
-                            </Text>
-                            <Button
-                                leftIcon={<FiUserPlus />}
-                                colorScheme="brand"
-                                onClick={openAddStudent}
-                            >
-                                Agregar Primer Estudiante
-                            </Button>
                         </VStack>
                     ) : (
                         <Box overflowX="auto">
@@ -313,44 +262,23 @@ const GroupDetail = () => {
                                     <Tr>
                                         <Th>Nombre</Th>
                                         <Th>Apellido</Th>
-                                        <Th width="100px" textAlign="center">Acciones</Th>
+                                        <Th>Asistencias</Th>
+                                        <Th>Faltas</Th>
+                                        <Th>Permisos</Th>
                                     </Tr>
                                 </Thead>
                                 <Tbody>
                                     {students.map(student => (
                                         <Tr
                                             key={student.id}
-                                            cursor="pointer"
-                                            _hover={{ bg: "background.tertiary" }}
-                                            onClick={() => navigateToStudentDetail(student.id)}
+                                            onClick={() => navigate(`/app/attendance/${groupId}/${student.id}`)} // Navegación al detalle del estudiante
+                                            cursor="pointer" // Cambia el cursor al pasar por encima
                                         >
                                             <Td>{student.nombre}</Td>
                                             <Td>{student.apellido}</Td>
-                                            <Td onClick={(e) => e.stopPropagation()}>
-                                                <Menu>
-                                                    <MenuButton
-                                                        as={IconButton}
-                                                        icon={<FiMoreVertical />}
-                                                        variant="ghost"
-                                                        size="sm"
-                                                    />
-                                                    <MenuList>
-                                                        <MenuItem
-                                                            icon={<FiEdit2 />}
-                                                            onClick={() => handleEditStudent(student)}
-                                                        >
-                                                            Editar
-                                                        </MenuItem>
-                                                        <MenuItem
-                                                            icon={<FiTrash2 />}
-                                                            color="red.500"
-                                                            onClick={() => handleDeleteStudent(student)}
-                                                        >
-                                                            Eliminar
-                                                        </MenuItem>
-                                                    </MenuList>
-                                                </Menu>
-                                            </Td>
+                                            <Td>{student.asistencias}</Td>  {/* Columna de Asistencias */}
+                                            <Td>{student.faltas}</Td>       {/* Columna de Faltas */}
+                                            <Td>{student.permisos}</Td>     {/* Columna de Permisos */}
                                         </Tr>
                                     ))}
                                 </Tbody>
@@ -359,54 +287,8 @@ const GroupDetail = () => {
                     )}
                 </CardBody>
             </Card>
-
-            {/* Modal para agregar estudiante */}
-            <CreateStudentModal
-                isOpen={isAddStudentOpen}
-                onClose={closeAddStudent}
-                onCreateStudent={handleCreateStudent}
-                preSelectedGroupId={groupId}
-            />
-
-            {/* Alerta de confirmación para eliminar estudiante */}
-            <AlertDialog
-                isOpen={isDeleteAlertOpen}
-                leastDestructiveRef={undefined}
-                onClose={closeDeleteAlert}
-                isCentered
-            >
-                <AlertDialogOverlay>
-                    <AlertDialogContent bg="background.card">
-                        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-                            Eliminar Estudiante
-                        </AlertDialogHeader>
-
-                        <AlertDialogBody>
-                            {studentToDelete && (
-                                <Text>
-                                    ¿Estás seguro de eliminar a {studentToDelete.nombre} {studentToDelete.apellido} del grupo?
-                                    Esta acción no se puede deshacer.
-                                </Text>
-                            )}
-                        </AlertDialogBody>
-
-                        <AlertDialogFooter>
-                            <Button onClick={closeDeleteAlert}>
-                                Cancelar
-                            </Button>
-                            <Button
-                                colorScheme="red"
-                                ml={3}
-                                onClick={confirmDeleteStudent}
-                            >
-                                Eliminar
-                            </Button>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialogOverlay>
-            </AlertDialog>
         </Box>
     );
 };
 
-export default GroupDetail;
+export default StudentList;

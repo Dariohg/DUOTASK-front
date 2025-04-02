@@ -27,6 +27,7 @@ import {
 } from '@chakra-ui/react';
 import { FiEye, FiEyeOff, FiArrowLeft } from 'react-icons/fi';
 import { useAuth } from '../../contexts/AuthContext';
+import { registerUser } from '../../../services/api/registrationService';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -104,31 +105,27 @@ const Register = () => {
     // Manejar el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!validateForm()) return;
-
+    
         setIsLoading(true);
         setError('');
-
+    
         try {
-            // Preparar los datos para el registro
-            const userData = {
+            // Intentar registrar el usuario en localStorage
+            const result = registerUser({
                 nombre: formData.nombre,
                 apellido: formData.apellido,
                 username: formData.username,
                 password: formData.password,
                 correoElectronico: formData.correoElectronico,
                 numeroTelefono: formData.numeroTelefono,
-            };
-
-            // Llamar a la función register
-            const result = await register(userData);
-
+            });
+    
             if (result.success) {
-                // Mostrar mensaje de éxito y redireccionar al login
                 navigate('/login');
             } else {
-                setError(result.message || 'Error al registrar. Intenta de nuevo.');
+                setError(result.message);
             }
         } catch (error) {
             setError('Ocurrió un error durante el registro');
